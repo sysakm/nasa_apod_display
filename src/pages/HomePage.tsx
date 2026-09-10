@@ -26,8 +26,10 @@ function HomePage() {
     return (
         <div>
             <h2>NASA APOD Demo - {displayRandom ? 'Random picture' : 'Picture for today'}</h2>
-            <button type='button' onClick={handleForceRefresh}>{displayRandom ? 'Get another random photo' : 'Refresh the photo for today'}</button>
-            <button type='button' onClick={handleToggleDisplayRandom}>
+            <button type='button' disabled={status === 'loading'} onClick={handleForceRefresh}>
+                {displayRandom ? 'Get another random photo' : 'Refresh the photo for today'}
+            </button>
+            <button type='button' disabled={status === 'loading'} onClick={handleToggleDisplayRandom}>
                 {displayRandom ? 'Switch to today\'s photo' : 'Switch to random photo'}
             </button>
             {status === 'loading' && (<p>Loading...</p>)}

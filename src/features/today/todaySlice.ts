@@ -24,9 +24,6 @@ const todaySlice = createSlice({
     reducers: {
         toggleDisplayRandom(state) {
             state.displayRandom = !state.displayRandom
-        },
-        resetToday() {
-            return initialState
         }
     },
     extraReducers: builder => {
@@ -64,5 +61,5 @@ const todaySlice = createSlice({
     }
 })
 
-export const {toggleDisplayRandom, resetToday} = todaySlice.actions
+export const {toggleDisplayRandom} = todaySlice.actions
 export default todaySlice.reducer
