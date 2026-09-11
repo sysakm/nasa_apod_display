@@ -6,6 +6,7 @@ import DatePage from "../pages/DatePage.tsx";
 import {store} from "./store.ts";
 import {loadTodayPhoto} from "../features/today/todayThunks.ts";
 import RandomPage from "../pages/RandomPage.tsx";
+import SavedPage from "../pages/SavedPage.tsx";
 
 function homeLoader() {
     const displayRandom = store.getState().today.displayRandom
@@ -28,6 +29,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/random', Component: RandomPage
+            },
+            {
+                path: '/saved', Component: SavedPage
             },
             {
                 path: '*', Component: NotFoundPage

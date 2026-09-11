@@ -7,6 +7,7 @@ function AppLayout() {
                 <NavLink to='/home'>Home</NavLink>
                 <NavLink to='/date'>Choose by Date</NavLink>
                 <NavLink to='/random'>Random Pictures</NavLink>
+                <NavLink to='/saved'>Saved</NavLink>
             </header>
             <main>
                 <Outlet/>
