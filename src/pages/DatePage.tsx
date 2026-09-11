@@ -30,7 +30,10 @@ function DatePage() {
                         id='date'
                         type='date'
                         value={date}
-                        onChange={(e) => dispatch(changeDate(e.target.value))}
+                        onChange={
+                            (e) =>
+                                dispatch(changeDate(e.target.value))
+                        }
                     />
                 </label>
                 <label htmlFor='nDays'>
@@ -42,7 +45,10 @@ function DatePage() {
                         max='10'
                         step='1'
                         value={nDays}
-                        onChange={(e) => dispatch(changeNDays(+e.target.value))}
+                        onChange={
+                            (e) =>
+                                dispatch(changeNDays(+e.target.value))
+                        }
                     />
                 </label>
                 <button type='submit' disabled={status === 'loading'}>Load</button>
@@ -55,7 +61,10 @@ function DatePage() {
                 (
                     data.length === 1 ? <ApodImageDisplay image={data[0]} includeExplanation={true}/> : (
                         <div>
-                            {data.map(image => <ApodImageDisplay key={image.date} image={image} includeExplanation={false}/>)}
+                            {data.map(
+                                image =>
+                                    <ApodImageDisplay key={image.date} image={image} includeExplanation={false}/>
+                            )}
                         </div>
                     )
                 ) : <p>something went wrong with the images</p>)}
