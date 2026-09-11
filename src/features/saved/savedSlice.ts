@@ -1,19 +1,20 @@
 import type {ApodImage} from "../../types/apod.ts";
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import {loadSavedImagesFromStorage} from "./savedStorage.ts";
 
 export type SavedState = {
     images: Array<ApodImage>;
     selectedDate: string | null;
 }
 
-const initialState: SavedState = {
-    images: [],
+const getInitialState: () => SavedState = () => ({
+    images: loadSavedImagesFromStorage(),
     selectedDate: null
-}
+})
 
 const savedSlice = createSlice({
     name: 'saved',
-    initialState,
+    initialState: getInitialState,
     reducers: {
         addToSaved(state, action: PayloadAction<ApodImage>) {
             if (!state.images.some(img => img.date === action.payload.date)) {
@@ -30,7 +31,9 @@ const savedSlice = createSlice({
             state.selectedDate = action.payload
         },
         clearSaved() {
-            return initialState
+            return {
+                images: [], selectedDate: null
+            }
         }
     }
 })
