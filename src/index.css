@@ -362,6 +362,10 @@ h3 {
   box-shadow: var(--shadow-md);
 }
 
+.saved-page .apod-card--detail {
+  grid-template-columns: 1fr;
+}
+
 .apod-card__media {
   position: relative;
   width: 100%;
