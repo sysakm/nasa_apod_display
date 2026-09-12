@@ -13,27 +13,40 @@ function SavedPage() {
     }
 
     return (
-        <div>
-            <h2>Saved Pictures</h2>
-            <SavedSelector/>
-            {!selectedDate ? (
-                images.length > 0 &&
-                <p>Select any saved image to display it!</p>
-            ) : (
-                fullSelectedImage ?
-                <ApodImageDisplay image={fullSelectedImage} includeExplanation={true}/> :
-                <p>Something went wrong - the image you selected not found.</p>
-            )}
-            {selectedDate && (
-                <button
-                    type='button'
-                    onClick={handleUnselect}
-                    aria-label='Close selected picture'
-                >
-                    X
-                </button>
-            )}
-        </div>
+        <section className='page saved-page'>
+            <header className='page-heading'>
+                <h2>Saved Pictures</h2>
+            </header>
+            <div className='saved-layout'>
+                <SavedSelector/>
+                <div className='saved-preview'>
+                    {!selectedDate ? (
+                        images.length > 0 ? (
+                            <p className='saved-preview__placeholder'>Select any saved image to display it!</p>
+                        ) : (
+                            <p className='saved-preview__placeholder'>Your selected picture will appear here.</p>
+                        )
+                    ) : (
+                        fullSelectedImage ? (
+                            <div className='saved-selection'>
+                                <button
+                                    className='saved-selection__close'
+                                    type='button'
+                                    onClick={handleUnselect}
+                                    aria-label='Close selected picture'
+                                    title='Close selected picture'
+                                >
+                                    <span aria-hidden='true'>&times;</span>
+                                </button>
+                                <ApodImageDisplay image={fullSelectedImage} includeExplanation={true}/>
+                            </div>
+                        ) : (
+                            <p className='state-message state-message--error'>Something went wrong - the image you selected not found.</p>
+                        )
+                    )}
+                </div>
+            </div>
+        </section>
     )
 }
 

@@ -18,10 +18,13 @@ function RandomPage() {
     }
 
     return (
-        <div>
-            <h2>Browse random pictures</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='count'>
+        <section className='page'>
+            <header className='page-heading'>
+                <h2>Browse random pictures</h2>
+            </header>
+            <form className='search-panel' onSubmit={handleSubmit}>
+                <div className='form-fields form-fields--single'>
+                <label className='form-field' htmlFor='count'>
                     Enter number of random days between 1 and 10.
                     <input
                         id='count'
@@ -36,24 +39,31 @@ function RandomPage() {
                         }
                     />
                 </label>
-                <button type='submit' disabled={status === 'loading'}>Load</button>
-                <button type='button' onClick={handleReset}>Reset</button>
+                </div>
+                <div className='form-actions'>
+                    <button className='button button--primary' type='submit' disabled={status === 'loading'}>Load</button>
+                    <button className='button button--secondary' type='button' onClick={handleReset}>Reset</button>
+                </div>
             </form>
-            {status === 'loading' && (<p>Loading...</p>)}
-            {status === 'error' && (<p>{error}</p>)}
+            {status === 'loading' && (<p className='state-message state-message--loading'>Loading...</p>)}
+            {status === 'error' && (<p className='state-message state-message--error'>{error}</p>)}
             {status === 'success' && (
                 data && data.length > 0 ?
                     (
-                        data.length === 1 ? <ApodImageDisplay image={data[0]} includeExplanation={true}/> : (
-                            <div>
+                        data.length === 1 ? (
+                            <div className='apod-results apod-results--single'>
+                                <ApodImageDisplay image={data[0]} includeExplanation={true}/>
+                            </div>
+                        ) : (
+                            <div className='apod-results apod-grid'>
                                 {data.map(
                                     image =>
                                         <ApodImageDisplay key={image.date} image={image} includeExplanation={false}/>
                                 )}
                             </div>
                         )
-                    ) : <p>something went wrong with the images</p>)}
-        </div>
+                    ) : <p className='state-message state-message--error'>something went wrong with the images</p>)}
+        </section>
     )
 }
 
