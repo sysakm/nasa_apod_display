@@ -2,10 +2,38 @@ import ApodImageDisplay from "../components/ApodImageDisplay.tsx";
 import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
 import {toggleDisplayRandom} from "../features/today/todaySlice.ts";
 import {loadTodayPhoto} from "../features/today/todayThunks.ts";
+import {useEffect} from "react";
+
+function millisecondsUntilNextMidnight() {
+    const now = new Date()
+    const nextUtcMidnight = Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() + 1
+    )
+    return nextUtcMidnight - now.getTime()
+}
 
 function HomePage() {
     const dispatch = useAppDispatch()
     const {displayRandom, status, error, data} = useAppSelector(state => state.today)
+
+    useEffect(() => {
+        if (displayRandom) {
+            return
+        }
+
+        let timeoutId: number;
+        function scheduleDailyRefresh() {
+            timeoutId = setTimeout(() => {
+                dispatch(loadTodayPhoto({displayRandom: false, force: true}))
+                scheduleDailyRefresh()
+            }, millisecondsUntilNextMidnight() + 1000)
+        }
+
+        scheduleDailyRefresh()
+        return () => clearTimeout(timeoutId)
+    }, [dispatch, displayRandom])
 
     function handleForceRefresh() {
         void dispatch(loadTodayPhoto({
@@ -29,9 +57,11 @@ function HomePage() {
                 <h2>NASA APOD Demo - {displayRandom ? 'Random picture' : 'Picture for today'}</h2>
             </header>
             <div className='page-actions'>
-                <button className='button button--primary' type='button' disabled={status === 'loading'} onClick={handleForceRefresh}>
-                    {displayRandom ? 'Get another random photo' : 'Refresh the photo for today'}
-                </button>
+                {displayRandom &&(
+                    <button className='button button--primary' type='button' disabled={status === 'loading'} onClick={handleForceRefresh}>
+                        Get another random photo
+                    </button>
+                )}
                 <button className='button button--secondary' type='button' disabled={status === 'loading'} onClick={handleToggleDisplayRandom}>
                     {displayRandom ? 'Switch to today\'s photo' : 'Switch to random photo'}
                 </button>

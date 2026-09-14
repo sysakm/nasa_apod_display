@@ -31,10 +31,14 @@ export const loadTodayPhoto = createAsyncThunk<
         }
     },
     {
-        condition: ({force}, {getState}) => {
-            const status = getState().today.status
+        condition: ({displayRandom, force}, {getState}) => {
+            const {status, data} = getState().today
             if (status === 'loading') return false
-            return force || status !== 'success'
+
+            if (force || status !== 'success') return true
+
+            const currentUtcDate = (new Date()).toISOString().slice(0, 10)
+            return !displayRandom && currentUtcDate !== data?.date
         }
     }
 )
